@@ -1,7 +1,7 @@
 from collections import deque
 import collections
 
-from app.point import *
+from point import *
 
 
 class Board:

@@ -1,4 +1,4 @@
-from app.board import Board
+from board import Board
 
 
 class Variables:

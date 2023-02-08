@@ -1,14 +1,12 @@
 import io
 import json
 import os
-
 from flask import Flask
-from flask import request
 
-from app.variables import *
-from app.board import *
-from app.logic import *
-from app.api import ping_response, start_response, move_response, end_response
+from variables import *
+from board import *
+from logic import *
+from api import ping_response, start_response, move_response, end_response
 
 
 app = Flask("Battlesnake")
@@ -33,14 +31,14 @@ def ping():
 
 @app.post('/start')
 def start():
-    data = request.get_json()
+    data = app.request.get_json()
 
     return start_response()
 
 
 @app.post('/move')
 def move():
-    data = request.get_json()
+    data = app.request.get_json()
 
     variables = Variables(data)
     board = Board(variables)
@@ -56,7 +54,7 @@ def move():
 
 @app.post('/end')
 def end():
-    data = request.get_json()
+    data = app.request.get_json()
 
     return end_response()
 

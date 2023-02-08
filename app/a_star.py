@@ -1,6 +1,6 @@
 import collections
 
-from app.point import *
+from point import *
 
 
 def a_star(variables, target, safe):
