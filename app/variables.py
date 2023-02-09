@@ -13,4 +13,4 @@ class Variables:
         self.you_x = self.you_body[0]["x"]
         self.you_y = self.you_body[0]["y"]
         self.snakes = data["board"]["snakes"]
-        self.board = Board(self)
+        self.board = None

@@ -11,34 +11,41 @@ class Point:
         self.parent = parent
         self.safe = safe
 
-    def get_symbol(self):
-        return self.board[self.y][self.x]
+    def get_symbol(self, debug=False):
+        if debug: print(f"get_symbol {self.board[self.height-1-self.y][self.width-1-self.x]}")
+        return self.board[self.height-1-self.y][self.width-1-self.x]
 
-    def check_safe(self):
-        return self.get_symbol() in self.safe
+    def check_safe(self, debug=False):
+        if debug: print(f"check_safe {self.get_symbol()}")
+        return self.get_symbol(debug) in self.safe
 
-    def get_neighbors(self):
+    def get_neighbors(self, debug=False):
+        if debug: print(f"get_neighbors height:{self.height}")
+
         neighbors = []
-
         if self.y > 0:
-            up = Point(self.variables, self.x, self.y - 1,
-                       self.safe, self.rank + 1, "up", self)
-            if up.check_safe():
-                neighbors.append(up)
-        if self.y < (self.height - 1):
-            down = Point(self.variables, self.x, self.y + 1,
-                         self.safe, self.rank + 1, "down", self)
-            if down.check_safe():
+            down = Point(self.variables, self.x, self.y - 1,
+                       self.safe, self.rank + 1, "down", self)
+            if down.check_safe(debug):
+                if debug: print("add down!")
                 neighbors.append(down)
+        if self.y < (self.height - 1):
+            up = Point(self.variables, self.x, self.y + 1,
+                         self.safe, self.rank + 1, "up", self)
+            if up.check_safe(debug):
+                if debug: print("add up!")
+                neighbors.append(up)
         if self.x < (self.width - 1):
             right = Point(self.variables, self.x + 1, self.y,
                           self.safe, self.rank + 1, "right", self)
-            if right.check_safe():
+            if right.check_safe(debug):
+                if debug: print("add right!")
                 neighbors.append(right)
         if self.x > 0:
             left = Point(self.variables, self.x - 1, self.y,
                          self.safe, self.rank + 1, "left", self)
-            if left.check_safe():
+            if left.check_safe(debug):
+                if debug: print("add left!")
                 neighbors.append(left)
 
         return neighbors
@@ -58,3 +65,9 @@ class Point:
 
     def __hash__(self):
         return hash((self.x, self.y))
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+    def __repr__(self):
+        return f"({self.x}, {self.y})"

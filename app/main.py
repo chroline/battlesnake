@@ -1,7 +1,8 @@
 import io
 import json
 import os
-from flask import Flask
+from flask import Flask, request
+import time
 
 from variables import *
 from board import *
@@ -14,10 +15,7 @@ app = Flask("Battlesnake")
 
 @app.route('/')
 def index():
-    return '''
-    Battlesnake documentation can be found at
-    <a href="https://docs.battlesnake.io">https://docs.battlesnake.io</a>.
-    '''
+    return start_response()
 
 
 @app.post('/ping')
@@ -31,30 +29,48 @@ def ping():
 
 @app.post('/start')
 def start():
-    data = app.request.get_json()
+    data = request.get_json()
 
     return start_response()
 
 
 @app.post('/move')
 def move():
-    data = app.request.get_json()
+  start_time = time.time()
+  
+  data = request.get_json()
 
-    variables = Variables(data)
-    board = Board(variables)
-    move = decide_move(variables)
+  start_time = time.time()
+  
+  variables = Variables(data)
 
-    print(f'move: {move}')
-    print(f'health: {variables.you_health}')
+  print(variables.height)
 
-    # board.print_board()
+  
+  board = Board(variables)
 
-    return move_response(move)
+  time1 = (time.time() - start_time)
+  print("-1- %s seconds ---" % time1)
+  
+  start_time = time.time()
+  
+  move = decide_move(variables)
+
+  print(f'move: {move}')
+  print(f'health: {variables.you_health}')
+
+  time2 = (time.time() - start_time)
+  print("-2- %s seconds ---" % time2)
+
+  time3 = time1 + time2
+  print("-3- %s seconds ---" % time3)
+
+  return move_response(move)
 
 
 @app.post('/end')
 def end():
-    data = app.request.get_json()
+    data = request.get_json()
 
     return end_response()
 

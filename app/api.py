@@ -1,21 +1,19 @@
 import json
 import random
-from bottle import HTTPResponse
 
 
 def ping_response():
-    return HTTPResponse(
-        status=200
-    )
+    return 200
 
 
 def start_response():
-
     return {
-        "color": random.choice(["#DBAF34", "#739071"]),
-        "headType": "dead",
-        "tailType": "shac-coffee"
-    }
+      "apiversion": "1",
+      "author": "",  # TODO: Your Battlesnake Username
+      "color": "#888888",  # TODO: Choose color
+      "head": "default",  # TODO: Choose head
+      "tail": "default",  # TODO: Choose tail
+  }
 
 
 def move_response(move):

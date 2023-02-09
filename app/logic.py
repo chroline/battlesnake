@@ -1,19 +1,20 @@
 import random
 import collections
 
-from a_star import *
-from point import *
+from a_star import get_food, chase_tail
+from point import Point
 
 
 def move_to_space(variables, safe=['F', '.', 'T']):
-    print("move_to_space")
     you_x = variables.you_x
     you_y = variables.you_y
     point = Point(variables, you_x, you_y, safe)
     moves = dict()
 
+
     for possible_move in point.get_neighbors():
         points = collections.deque([possible_move])
+        print(points)
         free_space = 0
         checked = list()
         while len(points) > 0:
@@ -24,6 +25,8 @@ def move_to_space(variables, safe=['F', '.', 'T']):
                 if (not neighbor in checked) and (not neighbor in points):
                     points.append(neighbor)
         moves[possible_move.direction] = free_space
+
+    print(moves)
 
     best_move = list()
     best = 0
@@ -54,6 +57,7 @@ def avoid_self_and_borders_randomly(variables, safe=['F', '.', 'T', 't']):
 
 
 def favor_chase_tail(variables):
+    '''
     # if at top wall, turn in direction of tail
     if variables.you_body[0]['y'] == 0 and variables.you_body[1]['y'] == 1:
         if variables.you_body[-1]['x'] < variables.you_body[0]['x']:
@@ -79,8 +83,13 @@ def favor_chase_tail(variables):
             return "up"
         if variables.you_body[-1]['x'] > variables.you_body[0]['x']:
             return "down"
+    '''
 
-    move = chase_tail(variables, ['.', 'T', 't', '!'])
+    if len(variables.you_body) <= 4:
+        move = chase_tail(variables, ['F', '.', 'T', '!'])
+    else:
+        move = chase_tail(variables, ['.', 'T', '!'])
+
     if len(move) == 0:
         move = chase_tail(variables, ['F', '.', 'T', 't', '!'])
         if len(move) == 0:

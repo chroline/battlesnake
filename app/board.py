@@ -8,6 +8,8 @@ class Board:
 
     def __init__(self, variables):
         self.variables = variables
+        self.height = variables.height
+        self.width = variables.width
         self.create_empty_board()
         self.add_food()
         self.add_you()
@@ -34,7 +36,7 @@ class Board:
         for f in food:
             x_coord = f['x']
             y_coord = f['y']
-            board[y_coord][x_coord] = 'F'
+            board[self.height-1-y_coord][self.width-1-x_coord] = 'F'
 
     def add_you(self):
         you_body = self.variables.you_body
@@ -48,18 +50,18 @@ class Board:
             if (x_coord, y_coord) in coords:
                 duplicates = True
             coords.add((x_coord, y_coord))
-            board[y_coord][x_coord] = 'Y'
+            board[self.height-1-y_coord][self.width-1-x_coord] = 'Y'
 
         head = you_body[0]
         head_x_coord = head['x']
         head_y_coord = head['y']
-        board[head_y_coord][head_x_coord] = 'H'
+        board[self.height-1-head_y_coord][self.width-1-head_x_coord] = 'H'
 
         if (len(you_body) > 3) and not duplicates:
             tail = you_body[-1]
             tail_x_coord = tail['x']
             tail_y_coord = tail['y']
-            board[tail_y_coord][tail_x_coord] = 'T'
+            board[self.height-1-tail_y_coord][self.width-1-tail_x_coord] = 'T'
 
     def add_others(self):
         snakes = self.variables.snakes
@@ -83,22 +85,22 @@ class Board:
                 if (x_coord, y_coord) in coords:
                     duplicates = True
                 coords.add((x_coord, y_coord))
-                board[y_coord][x_coord] = 'o'
+                board[self.height-1-y_coord][self.width-1-x_coord] = 'o'
 
             head = snake["body"][0]
             head_x_coord = head['x']
             head_y_coord = head['y']
-            board[head_y_coord][head_x_coord] = 'h'
+            board[self.height-1-head_y_coord][self.width-1-head_x_coord] = 'h'
 
             if not duplicates:
                 tail = snake["body"][-1]
                 tail_x_coord = tail['x']
                 tail_y_coord = tail['y']
-                board[tail_y_coord][tail_x_coord] = 't'
+                board[self.height-1-tail_y_coord][self.width-1-tail_x_coord] = 't'
 
             if len(snake["body"]) >= you_size:
                 for neighbor in Point(self.variables, head_x_coord, head_y_coord).get_neighbors():
-                    board[neighbor.y][neighbor.x] = '*'
+                    board[self.height-1-neighbor.y][self.width-1-neighbor.x] = '*'
 
     def flood_flow_get_deadends(self):
         you_x = self.variables.you_x
@@ -125,8 +127,8 @@ class Board:
                 else:
                     free_space -= 1
             if free_space < (you_size + 1):
-                if not self.variables.board[possible_move.y][possible_move.x] in ['T', 't']:
-                    self.variables.board[possible_move.y][possible_move.x] = '!'
+                if not self.variables.board[self.height-1-possible_move.y][self.width-1-possible_move.x] in ['T', 't']:
+                    self.variables.board[self.height-1-possible_move.y][self.width-1-possible_move.x] = '!'
 
     def print_board(self):
         board = self.variables.board
