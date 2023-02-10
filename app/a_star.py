@@ -40,7 +40,7 @@ def a_star(variables, target, safe):
     return top.get_move()
 
 
-def get_food(variables, safe=['F', '.']):
+def get_food(variables, safe=['F', '.', 'T']):
     return a_star(variables, 'F', safe)
 
 

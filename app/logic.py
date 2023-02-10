@@ -174,13 +174,13 @@ def decide_move(variables):
     you_size = len(you_body)
 
     can_chase_tail = True
-    """ for snake in snakes:
-        if len(snake["body"]) >= you_size:
-            if snake["id"] != you_id:
-                can_chase_tail = False
-                break """
+    for snake in snakes:
+      if len(snake["body"]) >= you_size:
+          if snake["id"] != you_id:
+              can_chase_tail = False
+              break
 
-    if (you_health >= 75) and can_chase_tail:
+    if (you_health >= 85) and can_chase_tail:
         move = favor_chase_tail(variables)
         if move in ['up', 'down', 'left', 'right']:
             return move

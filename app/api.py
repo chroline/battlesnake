@@ -3,7 +3,7 @@ import random
 
 
 def ping_response():
-    return 200
+    return '', 200
 
 
 def start_response():
